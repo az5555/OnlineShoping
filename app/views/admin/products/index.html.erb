@@ -1,0 +1,57 @@
+
+<style>
+    .block{
+        float: right;
+    }
+</style>
+
+<div class="container mt-4">
+  <h2>
+    商品列表
+  </h2>
+  <div class="block">
+    <%= link_to "新建商品", new_admin_product_path, class: "btn btn-primary" %>
+  </div>
+  <table class="table table-bordered">
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>图片</th>
+      <th>名称</th>
+      <th>库存</th>
+      <th>价格</th>
+      <th>原价</th>
+      <th>状态</th>
+      <th>操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    <% @products.each do |product| %>
+      <tr>
+        <td><%= product.id %></td>
+        <td><%= image_tag product.image, width: 100 %></td>
+        <td><%= product.name %></td>
+        <td><%= product.count %></td>
+        <td><%= product.price %></td>
+        <td><%= product.price_before %></td>
+        <td>
+          <% if product.status == 1 %>
+            正在售卖
+          <% else %>
+            停止销售
+          <% end %>
+        </td>
+        <td>
+
+          <%= link_to '修改', edit_admin_product_path(id: product) , class: 'btn btn-primary' -%>
+          <div class="block">
+            <%= button_to '删除', admin_product_path(id: product), method: :delete, data: { confirm: '确认吗?' }, class: 'btn btn-primary' -%>
+          </div>
+        </td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+
+  <% will_paginate @products %>
+</div>

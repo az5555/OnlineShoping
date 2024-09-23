@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="zh-">
+<head>
+  <title>BUAA电商管理平台</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+
+  <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+  <%= yield :stylesheet %>
+
+
+
+  <style>
+      body {
+          font-family: 'Arial', sans-serif;
+          background-color: #f8f9fa;
+      }
+
+      .navbar {
+          background-color: #34383b;
+      }
+
+      .user-avatar-s {
+          text-align: center;
+      }
+
+      .user-avatar-s img {
+          width: 40px;
+          height: 40px;
+          border-radius: 50%;
+          object-fit: cover;
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      .navbar-brand,
+      .navbar-nav .nav-link {
+          color: #fff;
+      }
+
+      .container {
+          margin-top: 5px;
+      }
+
+      .footer {
+          background-color: #343a40;
+          color: #fff;
+          text-align: center;
+          padding: 2px;
+          position: fixed;
+          bottom: 0;
+          width: 100%;
+      }
+
+      .footerBlock {
+          background-color: #f8f9fa;
+          color: #fff;
+          text-align: center;
+          padding: 20px;
+          bottom: 0;
+          width: 100%;
+      }
+
+
+      .hide-after-delay {
+          animation: hideAnimation 3s forwards; /* 3s is the duration of the animation */
+      }
+
+      @keyframes hideAnimation {
+          to {
+              opacity: 0;
+              visibility: hidden;
+              height: 0;
+              margin: 0;
+              padding: 0;
+          }
+      }
+  </style>
+</head>
+
+
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark">
+  <div class="container">
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <div class="user-avatar-s">
+            <%= image_tag "buaa.jpg" %>
+          </div>
+        </li>
+        <a class="navbar-brand" href="#">BUAA电商</a>
+        <li class="nav-item">
+          <a class="nav-link" href="<%= root_path %>"><i class="fas fa-home"></i> Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="<%= admin_products_path %>"><i class="fas fa-home"></i> 商品管理</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="<%= admin_categories_path %>"><i class="fas fa-info-circle"></i> 分类管理 </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="<%= admin_orders_path %>"><i class="fas fa-box"></i> 订单管理</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="<%= admin_comments_path %>"><i class="fas fa-comment"></i> 评论管理</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="<%= admin_users_path %>"><i class="fas fa-user"></i> 用户管理</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="<%= admin_requests_path %>"><i class="fas fa-clipboard"></i> 小哥申请</a>
+        </li>
+      </ul>
+    </div>
+    <ul class="nav navbar-nav navbar-right">
+
+
+      <% if user_signed_in? %>
+        <li class="nav-item">
+          <a class="nav-link" href="<%= userCenter_path %>">
+            欢迎来到BUAA电商, <%=  current_user.username  %>
+          </a>
+        </li>
+
+        <% if current_user.image.attached? %>
+          <li class="nav-item">
+            <div class="user-avatar-s">
+              <%= image_tag current_user.image %>
+            </div>
+          </li>
+        <% end %>
+        <li class="nav-item">
+          <%= button_to('退出登入', logout_path, method: :delete, class: "nav-link fas fa-sign-out-alt",
+                        data: { confirm: "Are you sure?"})%>
+        </li>
+      <%  end -%>
+    </ul>
+  </div>
+</nav>
+
+
+<div class="container">
+  <% unless flash[:notice].blank? %>
+    <div class="alert alert-info hide-after-delay" >
+      <%= flash[:notice]%>
+    </div>
+  <% end%>
+  <%= yield %>
+  <div class="footerBlock">
+
+  </div>
+</div>
+
+<div class="footer">
+  <p>&copy; <%= Time.now.year %> Created by lhc.</p>
+</div>
+
+<%= javascript_importmap_tags %>
+<%= yield :javascript %>
+
+</body>
+</html>

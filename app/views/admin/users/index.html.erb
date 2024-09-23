@@ -1,0 +1,64 @@
+<style>
+    .block{
+        float: right;
+    }
+</style>
+
+<div class="container mt-4">
+  <h2>
+    用户列表
+  </h2>
+
+  <table class="table table-bordered">
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>用户名</th>
+      <th>头像</th>
+      <th>邮箱</th>
+      <th>电话</th>
+      <th>消费金额</th>
+      <th>角色</th>
+      <th>账号状态</th>
+      <th>操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    <% @users.each do |user| %>
+      <tr>
+        <td><%= user.id %></td>
+        <td><%= user.username %></td>
+        <td><%= image_tag user.image, width: 100  if user.image.attached?%></td>
+        <td><%= user.email %></td>
+        <td><%= user.telephone %></td>
+        <td><%= user.total_money %></td>
+        <td>
+          <% if user.role.nil? %>
+            普通用户
+          <% elsif user.role == 'admin' %>
+            管理员
+          <% else %>
+            外卖小哥
+          <% end %>
+        </td>
+        <td>
+          <% if user.status == 1 %>
+            正常
+          <% else %>
+            被封禁
+          <% end %>
+        </td>
+        <td>
+          <% if user.status == 1 %>
+            <%= button_to '封禁', admin_order_path(id: user),method: :put, class: 'btn btn-primary' -%>
+          <% else %>
+            <%= button_to '解封', admin_order_path(id: user),method: :put, class: 'btn btn-primary' -%>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+
+  <% will_paginate @users %>
+</div>

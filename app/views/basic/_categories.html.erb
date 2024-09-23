@@ -1,0 +1,35 @@
+
+<style>
+    /* 列表项样式 */
+    .list-group-item {
+        background-color: #ffffff;
+        color: #000000;
+        padding: 10px;
+        border-radius: 0;
+        border: 1px solid #959ba1;
+    }
+    /* 鼠标悬停时修改列表背景颜色 */
+    .list-group-item:hover {
+        background-color: #e9ecef;
+        transition: background-color 0.3s ease;
+    }
+    /* 正常不显示下划线 */
+    .list-group-item a {
+        color: #007bff;
+        text-decoration: none;
+    }
+    /* 鼠标悬停时显示下划线 */
+    .list-group-item:hover a {
+        color: #0056b3;
+        text-decoration: underline;
+    }
+</style>
+
+<ul class="list-group">
+  <% @categories.each do |group| %>
+    <li class="list-group-item"><%= group.first.type_name %></li>
+    <% group.last.each do |sub_category| %>
+      <li class="list-group-item"><a href="<%= category_path(sub_category) %>"><%= sub_category.type_name %></a></li>
+    <% end -%>
+  <% end -%>
+</ul>

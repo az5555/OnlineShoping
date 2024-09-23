@@ -1,0 +1,56 @@
+<style>
+    .breadcrumb {
+        background-color: #f8f9fa;
+        padding: 10px;
+        border-radius: 5px;
+        border: 1px solid #959ba1;
+    }
+
+    .breadcrumb-item {
+        display: inline-block;
+        margin-right: 5px;
+    }
+
+    .breadcrumb-item a {
+        text-decoration: none;
+        color: #6c757d;
+        padding: 5px 8px;
+        border-radius: 5px;
+        transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    .breadcrumb-item a:hover {
+        color: #fff;
+        background-color: #6c757d;
+    }
+
+    .breadcrumb-item.active {
+        font-weight: bold;
+        color: #000;
+    }
+
+    .breadcrumb-item:not(.active)::after {
+        content: "/";
+        margin-left: 5px;
+        color: #6c757d;
+    }
+</style>
+
+<div class="row">
+  <div class="col-lg-3">
+    <%= render 'basic/categories' %>
+  </div>
+  <div class="col-lg-9">
+
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="<%= root_path %>">Home</a></li>
+        <li class="breadcrumb-item"><%= @category.parent.type_name %></li>
+        <li class="breadcrumb-item active" aria-current="page"><%= @category.type_name %></li>
+      </ol>
+    </nav>
+    <h1><%= @category.parent.type_name %></h1>
+
+    <%= render 'basic/products' %>
+  </div>
+</div>

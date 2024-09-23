@@ -1,0 +1,49 @@
+<div class="row mt-5">
+  <div class="col-md-6 offset-md-3">
+    <% if @user.errors.any?%>
+      <div class="alert alert-danger">
+        <h2>存在<%= pluralize(@user.errors.count, "error") %>个错误(仅显示部分) :</h2>
+          <ul>
+          <% @user.errors.first(5).each do |error| %>
+            <li><%= error.full_message %></li>
+          <% end -%>
+        </ul>
+      </div>
+    <% end -%>
+    <h1>注册</h1>
+    <%= form_for :user, url: users_path, method: :post, html: {
+      class: 'form-horizontal', id: "user_form"
+    } do |f| %>
+
+      <div class="mb-3">
+        <%= f.label :用户名 %>
+        <%= f.text_field :username, autofocus: true, class: 'form-control' %>
+      </div>
+
+      <div class="mb-3">
+        <%= f.label :邮箱 %>
+        <%= f.email_field :email, class: 'form-control' %>
+      </div>
+
+      <div class="mb-3">
+        <%= f.label :地址 %>
+        <%= f.text_area :address, class: 'form-control' %>
+      </div>
+
+      <div class="mb-3">
+        <%= f.label :密码 %>
+        <%= f.password_field :password, autocomplete: 'new-password', class: 'form-control' %>
+      </div>
+
+      <div class="mb-3">
+        <%= f.label :确认密码 %>
+        <%= f.password_field :password_confirmation, autocomplete: 'new-password', class: 'form-control' %>
+      </div>
+
+
+      <div class="text-center">
+        <%= f.submit '注册', class: 'btn btn-primary' %>
+      </div>
+    <% end %>
+  </div>
+</div>

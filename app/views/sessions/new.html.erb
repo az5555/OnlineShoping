@@ -1,0 +1,31 @@
+<div class="row mt-5">
+  <div class="col-md-6 offset-md-3">
+    <h1>登入</h1>
+    <%= form_tag(sessions_path, method: :post,  class: 'form-horizontal') do %>
+
+      <div class="mb-3">
+        email
+        <%= text_field_tag :email, nil, class: "form-control"%>
+      </div>
+
+      <div class="mb-3">
+        password
+        <%= password_field_tag :password, nil, class: "form-control" %>
+      </div>
+
+      <div class="text-center">
+        <input type="submit" name="sign_submit" value="登入" class="col-xs-12 btn btn-primary">
+        <div class="row mt-5">
+          <div class="col-md-6 offset-md-3">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">想要赚外快和志愿时长吗？</h5>
+                <p class="card-text">快去申请成为BUAA快递小哥吧！每位快递小哥都能获得工资和志愿时长</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

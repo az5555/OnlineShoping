@@ -1,0 +1,36 @@
+<style>
+    .block{
+        float: right;
+    }
+</style>
+
+<div class="container mt-4">
+  <h2>
+    我的评论
+  </h2>
+
+  <table class="table table-bordered">
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>商品名称</th>
+      <th>评论内容</th>
+    </tr>
+    </thead>
+    <tbody>
+    <% @comments.each do |comment| %>
+      <tr>
+        <td><%= comment.id %></td>
+        <td><%= link_to comment.product.name, product_path(id: comment.product_id), method: :get %></td>
+        <td><%= comment.content %></td>
+        <td>
+          <%= link_to '修改', edit_comment_path(id: comment),method: :put, class: 'btn btn-primary' -%>
+          <%= button_to '删除', comment_path(id: comment), method: :delete, data: { confirm: '确认吗?' }, class: 'btn btn-primary' -%>
+        </td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+
+  <% will_paginate @comments %>
+</div>

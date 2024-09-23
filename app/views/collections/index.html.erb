@@ -1,0 +1,83 @@
+<style>
+    .custom-alert {
+        background-color: #f8f9fa;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        padding: 20px;
+    }
+
+    .custom-title {
+        color: #333;
+        font-size: 30px;
+        font-weight: bold;
+        text-align: center;
+        margin-top: 30px;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    .media-object {
+        max-width: 200px;
+        height: auto;
+    }
+
+    .media-body {
+        text-align: center;
+    }
+
+    .media-left {
+        text-align: center;
+    }
+
+
+
+    .shopping-cart-row {
+        align-items: center;
+    }
+
+
+    .title {
+        color: #333;
+        font-size: 20px;
+        font-weight: bold;
+        text-decoration: none;
+    }
+
+    .empty-cart {
+        text-align: center;
+        margin-top: 20px;
+        color: #888;
+    }
+
+    .product-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 400px));
+        gap: 20px;
+        margin-bottom: 20px;
+    }
+</style>
+    <h1 class="custom-title">收藏夹</h1>
+    <div class="custom-alert">
+      <% unless @collections.blank? %>
+      <div class="product-container">
+            <% @collections.each do |collection| %>
+              <div class="media shopping-cart-row">
+                <div class="media-left">
+                  <a href="<%= product_path(collection.product) %>">
+                      <%= image_tag collection.product.image, class: 'media-object', alt: collection.product.name %>
+                  </a>
+                </div>
+                <div class="media-body">
+                  <h4 class="media-heading"><%= link_to collection.product.name, product_path(collection.product), class: 'title' %></h4>
+                </div >
+                <div class="media-body">
+                  <%= button_to "删除", collection_path(collection), :method => :delete, 'data-confirm': "不考虑一下了?", class: "btn btn-primary" %>
+                </div >
+                </div>
+            <% end -%>
+      </div>
+        <% else %>
+          <div class="empty-cart">
+            <h3>收藏夹为空</h3>
+          </div>
+        <% end -%>
+    </div>

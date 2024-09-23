@@ -1,0 +1,48 @@
+
+<style>
+    .block{
+        float: right;
+    }
+</style>
+
+<div class="container mt-4">
+  <h2>
+    <%= @product.name %>  ID:<%= @product.id %>
+  </h2>
+  <div class="block">
+      <%= form_tag admin_product_product_images_path(product_id: @product), method: :post, enctype: "multipart/form-data", class: "form-horizontal" do %>
+        <input type="file" name="images[]" multiple class="image-input" />
+        <%= submit_tag "上传", class: "btn btn-primary" %>
+      <% end -%>
+  </div>
+  <table class="table table-bordered">
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>图片</th>
+      <th>权重</th>
+      <th>操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    <% @product_images.each do |product_image| %>
+      <tr>
+        <td><%= product_image.id %></td>
+        <td><%= image_tag product_image.image.url(:middle) %></td>
+        <td>
+
+          <%= form_tag admin_product_product_image_path(@product, product_image), method: :put do %>
+            <input type="text" value="<%= product_image.weight %>" name="weight" />
+            <%= submit_tag "更新", class: "btn btn-default btn-xs" %>
+          <% end -%>
+
+        </td>
+        <td>
+            <%= button_to '删除', admin_product_product_image_path(product_id: @product, product_image_id: product_image),
+                          method: :delete, confirm: '确认吗?' , class: 'btn btn-primary' -%>
+        </td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+</div>

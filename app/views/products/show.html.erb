@@ -1,0 +1,333 @@
+<style>
+
+
+    /* 导航栏 */
+    .breadcrumb {
+        background-color: #f8f9fa;
+        padding: 10px;
+        border-radius: 5px;
+        border: 1px solid #959ba1;
+    }
+
+    .breadcrumb-item {
+        display: inline-block;
+        margin-right: 5px;
+    }
+
+    .breadcrumb-item a {
+        text-decoration: none;
+        color: #6c757d;
+        padding: 5px 8px;
+        border-radius: 5px;
+        transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    .breadcrumb-item a:hover {
+        color: #fff;
+        background-color: #6c757d;
+    }
+
+    .breadcrumb-item.active {
+        font-weight: bold;
+        color: #000;
+    }
+
+    .breadcrumb-item:not(.active)::after {
+        content: "/";
+        margin-left: 5px;
+        color: #6c757d;
+    }
+
+    /* 图片+下面小字 */
+    .product-image {
+        margin-bottom: 20px;
+    }
+
+    .product-image img {
+        max-width: 100%;
+        height: auto;
+        display: block;
+        margin: 0 auto;
+    }
+
+    .product-info {
+        margin-bottom: 20px;
+    }
+
+    .product-info ul {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .product-info ul li {
+        margin-bottom: 10px;
+    }
+
+
+
+    /* 价格*/
+    .product-price {
+        margin-bottom: 20px;
+    }
+
+    .product-price h3 {
+        margin: 0;
+    }
+
+    .product-price strong.discounted-price {
+        font-size: 30px;
+        color: #dc3545;
+    }
+
+    .product-price span.original-price {
+        font-size: 18px;
+        color: #6c757d;
+        text-decoration: line-through;
+        margin-left: 10px;
+    }
+
+    /* 数量，收藏，购物车 */
+    .product-form {
+        margin-bottom: 20px;
+    }
+
+    .product-form .form-group {
+        margin-bottom: 10px;
+    }
+
+    .product-form .btn {
+        width: 15%;
+        border-radius: 5px;
+        padding: 5px;
+    }
+
+    .product-form .amount-input {
+        width: 70px;
+        text-align: center;
+        border-radius: 5px;
+        padding: 5px;
+    }
+
+    .product-form .input-group-prepend .btn {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+
+    .product-form .input-group-append .btn {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+    }
+
+    .input-group {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+
+    .input-group .form-label {
+        margin-right: 10px;
+    }
+
+    .input-group .btn {
+        width: 30px;
+        height: 30px;
+        border-radius: 5px;
+        border: none;
+        background-color: transparent;
+        color: #000;
+        font-weight: bold;
+    }
+
+    .input-group .amount-input {
+        width: 70px;
+        text-align: center;
+        border-radius: 5px;
+        padding: 5px;
+        border: 1px solid #ccc;
+    }
+
+    .input-group .minus-btn {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+        margin-right: 10px;
+    }
+
+    .input-group .plus-btn {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+        margin-left: 10px;
+    }
+
+
+    /* 详情+评价 */
+    .product-wrapper {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 20px;
+    }
+
+    .product-details,
+    .product-reviews {
+        margin-bottom: 20px;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        background-color: #f8f9fa;
+    }
+
+    .product-details h4,
+    .product-reviews h4 {
+        margin-bottom: 10px;
+    }
+
+    .product-reviews .reviews-content {
+        max-height: 200px;
+        overflow-y: auto;
+    }
+
+    .product-reviews .review {
+        margin-bottom: 15px;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        background-color: #f8f9fa;
+    }
+
+    .product-reviews .review .author {
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+
+    .product-reviews .review .content {
+        color: #333;
+    }
+
+
+    .user-avatar-h img {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        object-fit: cover;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+</style>
+
+<div class="row">
+<div class="col-lg-3">
+  <%= render 'basic/categories' %>
+</div>
+<div class="col-lg-9">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li  class="breadcrumb-item"><a href="<%= root_path %>">Home</a></li>
+      <li  class="breadcrumb-item"><%= @product.category.parent.type_name %></li>
+      <li class="breadcrumb-item"><a href="<%= category_path @product.category.id %>"><%= @product.category.type_name %></a></li>
+      <li class="breadcrumb-item active"><%= @product.name %></li>
+    </ol>
+  </nav>
+  <h1><%= @product.name %></h1>
+  <div class="row product-image">
+        <div class="col-xs-6 col-md-3">
+            <%= image_tag @product.image %>
+        </div>
+  </div>
+
+  <div class="product-info">
+    <ul class="list-unstyled">
+      <li>库存: <%= @product.count %></li>
+    </ul>
+  </div>
+  <div class="product-price">
+    <h3>
+      <strong class="discounted-price">¥<%= @product.price %></strong>
+      <span class="original-price">¥<%= @product.price_before %></span>
+    </h3>
+  </div>
+  <div class="product-form">
+  <%= form_tag shopping_carts_path, method: :post do %>
+      <div class="input-group">
+        数量:
+        <div class="input-group-prepend">
+          <button type="button" class="btn btn-outline-secondary minus-btn">-</button>
+        </div>
+        <input type="text" name="amount" value="1" id="amount" />
+        <div class="input-group-append">
+          <button type="button" class="btn btn-outline-secondary plus-btn">+</button>
+        </div>
+      </div>
+    <input type="hidden" name="product_id" value="<%= @product.id %>" />
+    <%= submit_tag "加入购物车", class: "btn btn-primary"%>
+  <% end -%>
+  <%= form_tag collections_path, method: :post do %>
+    <input type="hidden" name="product_id" value="<%= @product.id %>" />
+    <%= submit_tag "收藏", class: "btn btn-primary  mt-2"%>
+  <% end -%>
+  </div>
+
+  <div class="product-wrapper">
+    <div class="product-details">
+      <!-- 商品详情内容 -->
+      <h4>商品详情</h4>
+      <div class="details-content">
+        <%= @product.description.html_safe %>
+      </div>
+    </div>
+    <div class="product-reviews">
+      <!-- 商品评价内容 -->
+
+      <!-- 发送评价部分 -->
+      <div class="send-review mt-3">
+        <h4>写下您的评价</h4>
+        <%= form_tag comments_path, method: :post do %>
+          <input type="hidden" name="product_id" value="<%= @product.id %>" />
+          <textarea  name="content" rows="3" placeholder="输入您的评价" class="form-control" ></textarea>
+          <%= submit_tag "发表评论", class: "btn btn-primary mt-3"%>
+        <% end -%>
+      </div>
+
+      <h4>商品评价</h4>
+      <div class="reviews-content">
+        <% @product.comments.each do |comment| %>
+          <div class="review">
+            <div class="author">
+              <div class="user-avatar-h">
+                <%= comment.user.username %>
+                <%= image_tag comment.user.image %>
+              </div>
+            </div>
+            <div class="content"><%= comment.content %></div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<script>
+    const minusBtn = document.querySelector('.minus-btn');
+    const plusBtn = document.querySelector('.plus-btn');
+    const amountInput = document.getElementById('amount');
+
+    // 减少数字
+    function decrementNumber() {
+        const currentValue = Number(amountInput.value);
+        if (currentValue > 1) {
+            amountInput.value = currentValue - 1;
+        }
+    }
+
+    // 增加数字
+    function incrementNumber() {
+        const currentValue = Number(amountInput.value);
+        amountInput.value = currentValue + 1;
+    }
+
+    // 监听减号按钮点击事件
+    minusBtn.addEventListener('click', decrementNumber);
+
+    // 监听加号按钮点击事件
+    plusBtn.addEventListener('click', incrementNumber);
+</script>

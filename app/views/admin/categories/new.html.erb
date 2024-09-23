@@ -1,0 +1,39 @@
+<div class="row mt-5">
+  <div class="col-md-6 offset-md-3">
+    <% if @category.errors.any?%>
+      <div class="alert alert-danger">
+        <h2>存在<%= pluralize(@category.errors.count, "error") %>个错误(仅显示部分) :</h2>
+        <ul>
+          <% @category.errors.first(5).each do |error| %>
+            <li><%= error.full_message %></li>
+          <% end -%>
+        </ul>
+      </div>
+    <% end -%>
+    <h1>新建分类</h1>
+    <%= form_for :category, url: admin_categories_path, method: :post, html: {
+      class: 'form-horizontal', id: "user_form"
+    } do |f| %>
+
+      <div class="mb-3">
+        <%= f.label :类型名称 %>
+        <%= f.text_field :type_name, class: 'form-control' %>
+      </div>
+
+
+      <div class="mb-3">
+        <%= f.label :权重 %>
+        <%= f.text_field :weight, class: 'form-control' %>
+      </div>
+
+      <div class="mb-3">
+        <%= f.label :一级分类 %>
+        <%= f.collection_select(:ancestry, Category.roots, :id, :type_name, { prompt: '选择一级分类' }, class: 'form-select') %>
+      </div>
+
+      <div class="text-center">
+        <%= f.submit '创建', class: 'btn btn-primary' %>
+      </div>
+    <% end %>
+  </div>
+</div>

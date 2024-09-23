@@ -1,0 +1,49 @@
+<style>
+    .block{
+        float: right;
+    }
+</style>
+
+<div class="container mt-4">
+  <div class="block">
+    <%= link_to "新建分类", new_admin_category_path, class: "btn btn-primary" %>
+  </div>
+  <h2>
+    物品种类
+    <% unless @category.nil? %>
+      :<%= @category.type_name%>
+    <% end %>
+    (<%= @categories.count %>种)
+  </h2>
+
+  <table class="table table-bordered">
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>名称</th>
+      <th>权重</th>
+      <th>操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    <% @categories.each do |category| %>
+      <tr>
+        <td><%= category.id %></td>
+        <td><%= category.type_name %></td>
+        <td><%= category.weight %></td>
+        <td>
+          <%= link_to '修改', edit_admin_category_path(id: category) , class: 'btn btn-primary' -%>
+          <% if category.root? %>
+            <%= link_to "查看子分类", admin_categories_path(id: category), class: 'btn btn-primary' -%>
+          <% end -%>
+          <div class="block">
+            <%= button_to '删除', admin_category_path(id: category), method: :delete, data: { confirm: '确认吗?' }, class: 'btn btn-primary' -%>
+          </div>
+        </td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+
+  <% will_paginate @categories %>
+</div>

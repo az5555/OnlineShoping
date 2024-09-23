@@ -1,0 +1,55 @@
+<style>
+    .block{
+        float: right;
+    }
+</style>
+
+<div class="container mt-4">
+  <h2>
+    订单列表
+  </h2>
+
+  <table class="table table-bordered">
+    <thead>
+    <tr>
+      <th>商品</th>
+      <th>商品数量</th>
+      <th>总金额</th>
+      <th>付款时间</th>
+      <th>状态</th>
+      <th>操作</th>
+    </tr>
+    </thead>
+    <tbody>
+      <% @orders.each do |order| %>
+        <tr>
+          <td><%= link_to order.product_name, product_path(id: order.product_id) %></td>
+          <td><%= order.amount %></td>
+          <td><%= order.total_money %></td>
+          <td><%= order.pay_time %></td>
+          <th>
+            <% if order.status == 0 %>
+              待发货
+            <% elsif order.status == 1 %>
+              已发货,<%= order.deliver_name %>正在为您派送
+            <% else %>
+              订单已完成
+            <% end %>
+          </th>
+          <td>
+            <div class="block">
+              <% if order.status == 1 %>
+                <%= button_to '确认收到', order_path(id: order), method: :put, data: { confirm: '确认吗?' }, class: 'btn btn-primary' -%>
+              <% elsif order.status == 2 %>
+                <%= button_to '删除', order_path(id: order), method: :delete, data: { confirm: '确认吗?' }, class: 'btn btn-primary' -%>
+              <% else %>
+                <%= button_to '取消', order_path(id: order), method: :delete, data: { confirm: '确认吗?' }, class: 'btn btn-primary' -%>
+              <% end %>
+            </div>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <%= will_paginate @orders %>
+</div>

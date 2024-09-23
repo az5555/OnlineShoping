@@ -1,0 +1,185 @@
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f5f5f5;
+    }
+
+    .container2 {
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #ffffff;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .h1 {
+        font-size: 24px;
+        color: #333333;
+        margin-bottom: 20px;
+    }
+
+    .card {
+        margin-top: 20px;
+        border: none;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .card-title {
+        font-size: 18px;
+        font-weight: bold;
+        color: #333333;
+    }
+
+    .card-text {
+        font-size: 16px;
+        color: #666666;
+        margin-bottom: 10px;
+    }
+
+
+
+    .back-link:hover {
+        color: #333333;
+    }
+
+    /* 用户头像 */
+    .user-avatar {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .user-avatar img {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        object-fit: cover;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    /* 上传图片 */
+    .avatarInput {
+        display: none;
+    }
+
+    .upload-header {
+        font-size: 16px;
+        font-weight: bold;
+        color: #007bff;
+    }
+
+    .upload-button {
+        display: inline-block;
+        padding: 10px 15px;
+        font-size: 16px;
+        font-weight: bold;
+        color: #ffffff;
+        background-color: #007bff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .upload-button:hover {
+        background-color: #0069d9;
+    }
+
+    .upload-label {
+        display: inline-block;
+        font-size: 14px;
+        color: #888888;
+    }
+
+    .upload-label:hover {
+        color: #333333;
+    }
+
+    /* 申请外卖小哥 */
+    .apply-button {
+        display: inline-block;
+        padding: 10px 15px;
+        font-size: 16px;
+        font-weight: bold;
+        color: #ffffff;
+        background-color: #007bff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        margin-top: 10px;
+    }
+
+    .apply-button:hover {
+        background-color: #0069d9;
+    }
+</style>
+
+
+
+
+<div class="container2 mt-5">
+  <h1 class="h1">用户中心</h1>
+
+  <div class="card">
+    <% if @user.image.attached? %>
+      <div class="user-avatar">
+        <%= image_tag @user.image %>
+      </div>
+    <% end %>
+    <div class="card-body">
+      <h5 class="card-title">邮箱: <%= @user.email %></h5>
+      <p class="card-text">用户名: <%= @user.username %></p>
+      <p class="card-text">电话: <%= @user.telephone %></p>
+      <p class="card-text">地址: <%= @user.address %></p>
+      <p class="card-text">累计消费: <%= @user.total_money %>￥</p>
+      <p class="card-text">创建日期: <%= @user.created_at %></p>
+    </div>
+  </div>
+
+  <div class="mt-3">
+    <%= link_to '修改个人信息，密码', edit_user_path(current_user.id), class: 'btn btn-primary' %>
+  </div>
+
+  <div class="mt-3">
+    <%= link_to '查看我的评论', comments_path, class: 'btn btn-primary' %>
+  </div>
+
+  <% if @user.role.nil? %>
+    <div class="mt-3">
+      <%= button_to '申请成为快递员', requests_path, method: :post, class: 'btn btn-primary' %>
+    </div>
+  <% end %>
+
+  <div class="mt-3">
+    <div class="upload-container">
+      <span class="upload-header">修改头像:</span>
+      <%= form_with(model: @user, url:  upload_image_user_path(id: @user), method: :post, local: true, multipart: true) do |form| %>
+        <input type="file" class="avatarInput" id="avatar" name="image" accept="image/jpeg, image/png">
+        <label for="avatar" class="upload-button">选择图片</label>
+        <span class="upload-label">支持 JPG、PNG 格式，最大文件大小为 5MB</span>
+        <%= form.submit "上传头像" , class: 'upload-button'%>
+      <% end %>
+    </div>
+  </div>
+
+
+  <%= link_to 'Back', root_path, class: 'btn btn-secondary mt-3' %>
+</div>
+
+
+<script>
+    const avatarInput = document.querySelector(".avatarInput");
+    const uploadLabel = document.querySelector(".upload-label");
+
+    avatarInput.addEventListener("change", handleAvatarChange);
+
+    function handleAvatarChange(event) {
+        const file = event.target.files[0];
+        if (file) {
+            uploadLabel.textContent = file.name;
+        } else {
+            uploadLabel.textContent = "支持 JPG、PNG 格式，最大文件大小为 5MB";
+        }
+    }
+</script>

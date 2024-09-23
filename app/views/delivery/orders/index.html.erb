@@ -1,0 +1,44 @@
+<style>
+    .block{
+        float: right;
+    }
+</style>
+
+<div class="container mt-4">
+  <h2>
+    订单列表
+  </h2>
+  <div class="block">
+    <%= link_to "待完成订单", my_order_delivery_orders_path, class: "btn btn-primary" %>
+  </div>
+  <table class="table table-bordered">
+    <thead>
+    <tr>
+      <th>用户</th>
+      <th>商品名称</th>
+      <th>商品数量</th>
+      <th>总金额</th>
+      <th>配送地址</th>
+      <th>付款时间</th>
+      <th>操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    <% @orders.each do |order| %>
+      <tr>
+        <td><%= order.user_name %></td>
+        <td><%= link_to order.product_name, product_path(id: order.product_id) %></td>
+        <td><%= order.amount %></td>
+        <td><%= order.total_money %></td>
+        <td><%= order.address %></td>
+        <td><%= order.pay_time %></td>
+        <td>
+          <%= button_to '接单', delivery_order_path(id: order),method: :put, class: 'btn btn-primary' -%>
+        </td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+
+  <% will_paginate @orders %>
+</div>

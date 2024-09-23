@@ -1,0 +1,125 @@
+<style>
+    /* 外框 */
+    .thumbnail {
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        padding: 10px;
+        background-color: #fff;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        transition: box-shadow 0.3s ease-in-out;
+        height: 100%;
+    }
+
+    .thumbnail:hover {
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    /* 图片 */
+    .product-image {
+        display: block;
+        margin: 0 auto 10px;
+        max-width: 100%;
+        text-align: center;
+    }
+
+    /* 产品名称 */
+    .product-name {
+        font-weight: bold;
+        margin-bottom: 5px;
+        text-align: center;
+    }
+
+    .title {
+        text-decoration: none;
+        color: #333;
+        font-size: 25px;
+        font-weight: bold;
+    }
+
+    /* 价格 */
+    .product-price {
+        margin-bottom: 5px;
+        text-align: center;
+    }
+
+    .product-price h3 {
+        margin: 0;
+    }
+
+    .product-price strong.discounted-price {
+        font-size: 20px;
+        color: #dc3545;
+    }
+
+    .product-price span.original-price {
+        font-size: 12px;
+        color: #6c757d;
+        text-decoration: line-through;
+        margin-left: 10px;
+    }
+
+    /* 按钮 */
+    .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+        margin: 0 auto;
+    }
+
+    .btn-primary:hover {
+        background-color: #0069d9;
+        border-color: #0062cc;
+    }
+
+    .form-group {
+        text-align: center;
+    }
+
+    .button-group {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .button-group .btn {
+        margin-right: 10px;
+    }
+</style>
+
+
+<div class="row">
+  <% @products.each do |product| %>
+    <div class="col-sm-6 col-md-4">
+      <div class="thumbnail">
+        <%= link_to image_tag(product.image, alt: product.name, width: 200), product_path(product) , class: 'product-image'%>
+          <div class="caption">
+            <h4 class="product-name"><%= link_to product.name, product_path(product), class: 'title' %></h4>
+            <p class="product-price">
+              <strong class="discounted-price">
+                ¥<%= product.price %>
+              </strong>
+              <span class="original-price">
+                ¥<%= product.price_before %>
+              </span>
+            </p>
+            <div class="button-group">
+                <%= form_tag shopping_carts_path, method: :post do %>
+                  <div class="form-group">
+                  <input type="hidden" name="amount" value="1" />
+                  <input type="hidden" name="product_id" value="<%= product.id %>" />
+                  <%= submit_tag "加入购物车", class: "btn btn-primary"%>
+                  </div>
+                <% end -%>
+                <%= form_tag collections_path, method: :post do %>
+                  <div class="form-group">
+                  <input type="hidden" name="product_id" value="<%= product.id %>" />
+                  <%= submit_tag "收藏", class: "btn btn-primary"%>
+                  </div>
+                <% end -%>
+                </div>
+        </div>
+      </div>
+    </div>
+  <% end -%>
+</div>
+
+<%= will_paginate @products %>

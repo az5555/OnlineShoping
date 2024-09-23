@@ -1,0 +1,74 @@
+<div class="row mt-5">
+  <div class="col-md-6 offset-md-3">
+    <% if @product.errors.any?%>
+      <div class="alert alert-danger">
+        <h2>存在<%= pluralize(@product.errors.count, "error") %>个错误(仅显示部分) :</h2>
+        <ul>
+          <% @product.errors.first(3).each do |error| %>
+            <li><%= error.full_message %></li>
+          <% end -%>
+        </ul>
+      </div>
+    <% end -%>
+    <h1>新建商品</h1>
+    <%= form_for :product, url: admin_products_path, method: :post, html: {
+      class: 'form-horizontal', id: "user_form"
+    } do |f| %>
+
+      <div class="mb-3">
+        名称:<%= f.text_field :name, class: 'form-control' %>
+      </div>
+
+
+      <div class="mb-3">
+        价格:<%= f.text_field :price, class: 'form-control' %>
+      </div>
+
+      <div class="mb-3">
+        原价:<%= f.text_field :price_before, class: 'form-control' %>
+      </div>
+
+      <div class="mb-3">
+        库存:<%= f.text_field :count, class: 'form-control' %>
+      </div>
+
+      <div class="mb-3">
+        权重:<%= f.text_field :weight, class: 'form-control' %>
+      </div>
+
+
+      <div class="mb-3">
+        <%= f.label :描述 %>
+        <%= f.text_area :description, class: 'form-control' %>
+      </div>
+
+      <div class="mb-3">
+        <%= f.label :图片 %>
+        <%= f.file_field :image %>
+      </div>
+
+
+
+
+      <div class="form-group">
+        <label for="category_id" class="col-sm-2 control-label">所属分类:</label>
+        <div class="col-sm-5">
+          <select name="product[category_id]">
+            <option></option>
+            <% Category.roots.each do |category| %>
+              <optgroup label="<%= category.type_name %>"></optgroup>
+
+              <% category.children.each do |sub_category| %>
+                <option value="<%= sub_category.id %>" <%= @product.category_id == sub_category.id ? 'selected' : '' %>><%= sub_category.type_name %></option>
+              <% end -%>
+            <% end -%>
+          </select>
+        </div>
+      </div>
+
+      <div class="text-center">
+        <%= f.submit '创建', class: 'btn btn-primary' %>
+      </div>
+    <% end %>
+  </div>
+</div>
